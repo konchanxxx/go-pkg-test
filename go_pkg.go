@@ -2,6 +2,7 @@ package go_pkg_test
 
 import (
 	"fmt"
+	"path/filepath"
 
 	"github.com/BurntSushi/toml"
 )
@@ -12,7 +13,12 @@ type User struct {
 
 func Bind(path string) {
 	u := &User{}
-	_, err := toml.DecodeFile(path, u)
+	p, err := filepath.Abs(path)
+	if err != nil {
+		panic(err)
+	}
+
+	_, err = toml.DecodeFile(p, u)
 	if err != nil {
 		panic(err)
 	}
